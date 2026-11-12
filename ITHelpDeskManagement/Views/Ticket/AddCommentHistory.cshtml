@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ITHelpDeskManagement.ViewModels.AddCommentHistoryViewModel>
+
+@{
+    ViewData["Title"] = "Admin Comment History";
+}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Admin Comment History</h2>
+            <p class="text-muted">
+                View comments posted by Admin users.
+            </p>
+        </div>
+
+        <a asp-controller="Ticket"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Back to Tickets
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-info">
+                    No Admin comments found.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-hover align-middle">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Admin</th>
+                                <th>Ticket Creator</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <strong>#@item.TicketId</strong>
+                                        <div class="text-muted small">
+                                            @item.TicketTitle
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        @item.AuthorEmail
+                                    </td>
+
+                                    <td>
+                                        @item.TicketCreatorEmail
+                                    </td>
+
+                                    <td style="min-width:250px; max-width:350px;">
+                                        <div style="white-space:pre-wrap; overflow-wrap:anywhere;">
+                                            @item.CommentText
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        @item.CommentDate.ToString("dd MMM yyyy")
+                                        <div class="text-muted small">
+                                            @item.CommentDate.ToString("hh:mm tt")
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

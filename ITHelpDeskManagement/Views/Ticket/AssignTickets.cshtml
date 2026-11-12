@@ -1,0 +1,143 @@
+﻿@model IEnumerable<ITHelpDeskManagement.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Assign Tickets";
+
+    var userEmails = ViewBag.UserEmails
+        as Dictionary<string, string>
+        ?? new Dictionary<string, string>();
+}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h2 class="fw-bold mb-1">Assign Tickets</h2>
+            <p class="text-muted mb-0">
+                Manage and allocate support requests to your staff.
+            </p>
+        </div>
+
+        <a asp-controller="Ticket"
+           asp-action="Index"
+           class="btn btn-outline-secondary rounded-pill px-4">
+            <i class="bi bi-arrow-left me-1"></i>
+            Back to Tickets
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["Success"]
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th class="p-3">Ticket ID</th>
+                            <th class="p-3">Title</th>
+                            <th class="p-3">Status</th>
+                            <th class="p-3">Assignment</th>
+                            <th class="p-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var ticket in Model)
+                            {
+                                <tr>
+                                    <td class="p-3 fw-semibold">
+                                        #@ticket.TicketId
+                                    </td>
+
+                                    <td class="p-3">
+                                        @ticket.Title
+                                    </td>
+
+                                    <td class="p-3">
+                                        @if (ticket.Status == "Open")
+                                        {
+                                            <span class="badge bg-primary rounded-pill px-3 py-2">
+                                                Open
+                                            </span>
+                                        }
+                                        else if (ticket.Status == "In Progress")
+                                        {
+                                            <span class="badge bg-warning text-dark rounded-pill px-3 py-2">
+                                                In Progress
+                                            </span>
+                                        }
+                                        else if (ticket.Status == "Resolved")
+                                        {
+                                            <span class="badge bg-success rounded-pill px-3 py-2">
+                                                Resolved
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary rounded-pill px-3 py-2">
+                                                @ticket.Status
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td class="p-3">
+                                        @if (!string.IsNullOrWhiteSpace(ticket.AssignedTo)
+                                            && userEmails.TryGetValue(ticket.AssignedTo, out var assignedEmail))
+                                        {
+                                            <span class="text-success fw-semibold">
+                                                <i class="bi bi-person-check me-1"></i>
+                                                @assignedEmail
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                <i class="bi bi-person-dash me-1"></i>
+                                                Unassigned
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td class="p-3 text-center">
+                                        <a asp-controller="Ticket"
+                                           asp-action="Assign"
+                                           asp-route-id="@ticket.TicketId"
+                                           class="btn btn-success btn-sm rounded-pill px-4">
+
+                                            <i class="bi bi-person-check me-1"></i>
+                                            Assign Staff
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center p-5 text-muted">
+                                    <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                                    No tickets available.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

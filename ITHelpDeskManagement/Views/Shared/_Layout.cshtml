@@ -1,0 +1,895 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - IT Helpdesk</title>
+
+    <script type="importmap"></script>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/ITHelpDeskManagement.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+            :root {
+                --sidebar-bg: #111827;
+                --sidebar-hover: #1f2937;
+                --accent: #4263eb;
+                --accent-light: #eef2ff;
+                --page-bg: #f5f7fb;
+                --text-main: #182230;
+                --text-muted: #667085;
+                --border-color: #e8edf4;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                background: var(--page-bg);
+                color: var(--text-main);
+                font-family: "Segoe UI", Arial, sans-serif;
+                font-size: 14px;
+            }
+
+            .app-shell {
+                min-height: 100vh;
+                display: flex;
+            }
+
+            /* Sidebar */
+
+            .sidebar {
+    width: 255px;
+    flex-shrink: 0;
+    background: var(--sidebar-bg);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 25px 17px 18px;
+
+    /* Fixed sidebar while scrolling */
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    min-height: 100vh;
+
+    /* Sidebar scrolling if its content exceeds screen height */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                color: white;
+                text-decoration: none;
+                font-size: 19px;
+                font-weight: 700;
+                padding: 0 9px 34px;
+            }
+
+                .brand:hover {
+                    color: white;
+                }
+
+            .brand-icon {
+                width: 43px;
+                height: 43px;
+                display: grid;
+                place-items: center;
+                background: linear-gradient(135deg, #4776f5, #3455d1);
+                border-radius: 13px;
+                font-size: 23px;
+                box-shadow: 0 5px 15px rgba(66, 99, 235, .25);
+            }
+
+            .brand small {
+                display: block;
+                font-size: 11px;
+                font-weight: 400;
+                color: #9ca3af;
+                margin-top: 3px;
+            }
+
+            .sidebar-label {
+                color: #8491a5;
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: 1.3px;
+                text-transform: uppercase;
+                padding: 15px 12px 10px;
+            }
+
+            .sidebar nav {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .sidebar .nav-link {
+                display: flex;
+                align-items: center;
+                gap: 13px;
+                padding: 12px 13px;
+                border-radius: 9px;
+                color: #cbd5e1;
+                text-decoration: none;
+                font-size: 13px;
+                font-weight: 500;
+                transition: all .2s ease;
+            }
+
+                .sidebar .nav-link:hover {
+                    background: var(--sidebar-hover);
+                    color: white;
+                }
+
+                .sidebar .nav-link.active {
+                    background: #263c73;
+                    color: white;
+                    box-shadow: inset 3px 0 0 #7194ff;
+                }
+
+            .nav-icon {
+                width: 21px;
+                text-align: center;
+                font-size: 17px;
+            }
+
+            .sidebar-spacer {
+                flex: 1;
+                min-height: 25px;
+            }
+
+            .sidebar-footer {
+                border-top: 1px solid #293548;
+                padding: 17px 10px 0;
+                color: #8491a5;
+                font-size: 11px;
+                line-height: 1.8;
+            }
+
+                .sidebar-footer strong {
+                    color: #e5e7eb;
+                    font-size: 12px;
+                }
+
+            /* Main area */
+
+            .main-area {
+                min-width: 0;
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .topbar {
+                min-height: 79px;
+                background: #fff;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 15px;
+                padding: 14px 30px;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+                .topbar h1 {
+                    font-size: 20px;
+                    font-weight: 700;
+                    margin: 0;
+                    color: #172b4d;
+                }
+
+            .topbar-subtitle {
+                color: var(--text-muted);
+                font-size: 12px;
+                margin-top: 4px;
+            }
+
+            .topbar-actions {
+                display: flex;
+                align-items: center;
+                gap: 17px;
+            }
+
+            .notification-button {
+                width: 42px;
+                height: 42px;
+                border: 1px solid var(--border-color) !important;
+                background: #fff !important;
+                border-radius: 11px;
+                color: #344054;
+            }
+
+                .notification-button:hover {
+                    background: #f8faff !important;
+                }
+
+            .topbar-tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 9px 13px;
+                background: #ecfdf3;
+                color: #027a48;
+                border-radius: 25px;
+                font-size: 11px;
+                font-weight: 600;
+                white-space: nowrap;
+            }
+
+            .status-dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: #12b76a;
+            }
+
+            /* Profile dropdown */
+
+            .profile-toggle {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 5px 9px;
+                border: 1px solid transparent;
+                border-radius: 12px;
+                background: transparent;
+                text-align: left;
+            }
+
+                .profile-toggle:hover,
+                .profile-toggle.show {
+                    background: #f8faff;
+                    border-color: var(--border-color);
+                }
+
+            .profile-avatar {
+                width: 39px;
+                height: 39px;
+                display: grid;
+                place-items: center;
+                border-radius: 50%;
+                background: #e8edff;
+                color: #3455c7;
+                font-size: 15px;
+                font-weight: 700;
+            }
+
+            .profile-info {
+                display: flex;
+                flex-direction: column;
+                max-width: 150px;
+            }
+
+                .profile-info strong {
+                    font-size: 12px;
+                    color: #344054;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .profile-info small {
+                    font-size: 10px;
+                    color: #98a2b3;
+                }
+
+            .profile-menu {
+                width: 255px;
+                border: 1px solid var(--border-color);
+                border-radius: 13px;
+                padding: 9px;
+                margin-top: 10px !important;
+                box-shadow: 0 12px 35px rgba(16, 24, 40, .13);
+            }
+
+            .profile-menu-header {
+                padding: 12px;
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                border-bottom: 1px solid var(--border-color);
+                margin-bottom: 7px;
+            }
+
+            .profile-menu .dropdown-item {
+                padding: 10px 12px;
+                border-radius: 8px;
+                font-size: 12px;
+                color: #344054;
+            }
+
+                .profile-menu .dropdown-item i {
+                    width: 23px;
+                    font-size: 15px;
+                }
+
+                .profile-menu .dropdown-item:hover {
+                    background: #f2f5ff;
+                }
+
+            .profile-menu .logout-item {
+                color: #d92d20;
+            }
+
+                .profile-menu .logout-item:hover {
+                    background: #fff1f0;
+                    color: #b42318;
+                }
+
+            /* Page content */
+
+            .page-content {
+                flex: 1;
+                padding: 32px;
+                width: 100%;
+            }
+
+                .page-content .card {
+                    border: 1px solid var(--border-color);
+                    border-radius: 14px;
+                    box-shadow: 0 3px 12px rgba(16, 24, 40, .035);
+                }
+
+                .page-content .btn {
+                    border-radius: 8px;
+                    font-weight: 500;
+                }
+
+                .page-content .btn-primary {
+                    background: var(--accent);
+                    border-color: var(--accent);
+                }
+
+                    .page-content .btn-primary:hover {
+                        background: #3455d1;
+                        border-color: #3455d1;
+                    }
+
+                .page-content .table {
+                    vertical-align: middle;
+                }
+
+                    .page-content .table thead th {
+                        background: #f8fafc;
+                        color: #667085;
+                        font-size: 11px;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: .5px;
+                        padding: 16px 13px;
+                        white-space: nowrap;
+                    }
+
+                    .page-content .table td {
+                        padding: 15px 13px;
+                        color: #344054;
+                        font-size: 13px;
+                    }
+
+            /* Footer */
+
+            .app-footer {
+                padding: 17px 30px;
+                background: white;
+                border-top: 1px solid var(--border-color);
+                color: var(--text-muted);
+                font-size: 11px;
+            }
+
+                .app-footer a {
+                    color: var(--accent);
+                    text-decoration: none;
+                }
+
+                    .app-footer a:hover {
+                        text-decoration: underline;
+                    }
+
+            /* Mobile */
+
+            .mobile-menu-button {
+                display: none;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 7px 11px;
+                background: white;
+                font-size: 19px;
+            }
+
+            @@media (max-width: 768px) {
+                .app-shell {
+                    min-height: 100vh;
+                    display: block;
+                }
+
+                .sidebar {
+                    width: 100%;
+                    min-height: auto;
+                    padding: 14px 16px;
+                }
+
+                .brand {
+                    padding: 0;
+                }
+
+                .sidebar nav,
+                .sidebar-label,
+                .sidebar-footer,
+                .sidebar-spacer {
+                    display: none;
+                }
+
+                .sidebar.mobile-open nav {
+                    display: flex;
+                    margin-top: 18px;
+                }
+
+                .sidebar.mobile-open .sidebar-label {
+                    display: block;
+                }
+
+                .sidebar.mobile-open .sidebar-footer {
+                    display: block;
+                }
+
+                .sidebar.mobile-open .sidebar-spacer {
+                    display: block;
+                    min-height: 15px;
+                }
+
+                .topbar {
+                    padding: 13px 15px;
+                }
+
+                    .topbar h1 {
+                        font-size: 17px;
+                    }
+
+                .topbar-subtitle {
+                    font-size: 10px;
+                }
+
+                .topbar-tag {
+                    display: none;
+                }
+
+                .topbar-actions {
+                    gap: 7px;
+                }
+
+                .profile-info {
+                    display: none;
+                }
+
+                .profile-toggle {
+                    padding: 3px;
+                }
+
+                .page-content {
+                    padding: 20px 14px;
+                    overflow-x: auto;
+                }
+
+                .app-footer {
+                    padding: 15px;
+                }
+
+                .mobile-menu-button {
+                    display: inline-block;
+                }
+            }
+
+            @@media (max-width: 420px) {
+                .notification-button {
+                    width: 37px;
+                    height: 37px;
+                }
+
+                .profile-avatar {
+                    width: 35px;
+                    height: 35px;
+                }
+
+                .topbar {
+                    gap: 6px;
+                }
+            }
+    </style>
+</head>
+
+<body>
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    }
+
+    <div class="app-shell">
+
+        <aside class="sidebar" id="sidebar">
+
+            <!-- Brand -->
+            <a class="brand"
+               asp-controller="Home"
+               asp-action="Index">
+
+                <span class="brand-icon">
+                    <i class="bi bi-headset"></i>
+                </span>
+
+                <span>
+                    IT Helpdesk
+                    <small>Management System</small>
+                </span>
+            </a>
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="sidebar-label">Workspace</div>
+
+                <nav>
+                    <a class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")"
+                       asp-controller="Home"
+                       asp-action="Index">
+                        <span class="nav-icon"><i class="bi bi-grid-1x2"></i></span>
+                        Dashboard
+                    </a>
+
+                    @if (User.IsInRole("Admin") || User.IsInRole("User"))
+                    {
+                        <a class="nav-link @(currentController == "Ticket" && currentAction == "Index" ? "active" : "")"
+                           asp-controller="Ticket"
+                           asp-action="Index">
+                            <span class="nav-icon"><i class="bi bi-ticket-perforated"></i></span>
+                            All Tickets
+                        </a>
+
+                        <a class="nav-link @(currentController == "Ticket" && currentAction == "Create" ? "active" : "")"
+                           asp-controller="Ticket"
+                           asp-action="Create">
+                            <span class="nav-icon"><i class="bi bi-plus-circle"></i></span>
+                            Create Ticket
+                        </a>
+                    }
+
+                    @if (User.IsInRole("SupportStaff"))
+                    {
+                        <a class="nav-link @(currentController == "Ticket" && currentAction == "MyAssignedTickets" ? "active" : "")"
+                           asp-controller="Ticket"
+                           asp-action="MyAssignedTickets">
+                            <span class="nav-icon"><i class="bi bi-clipboard-check"></i></span>
+                            My Assigned Work
+                        </a>
+                    }
+
+                    @if (User.IsInRole("Admin") ||
+                         User.IsInRole("User") ||
+                         User.IsInRole("SupportStaff"))
+                    {
+                        <a class="nav-link @(currentController == "Ticket" && currentAction == "Comments" ? "active" : "")"
+                           asp-controller="Ticket"
+                           asp-action="Comments">
+                            <span class="nav-icon"><i class="bi bi-chat-left-text"></i></span>
+                            Comments
+                        </a>
+
+                        <a class="nav-link @(currentController == "Notification" ? "active" : "")"
+                           asp-controller="Notification"
+                           asp-action="Index">
+                            <span class="nav-icon"><i class="bi bi-bell"></i></span>
+                            Notifications
+                        </a>
+                    }
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="sidebar-label">Administration</div>
+
+                        <a class="nav-link @(currentController == "Account" && currentAction == "Users" ? "active" : "")"
+                           asp-controller="Account"
+                           asp-action="Users">
+                            <span class="nav-icon"><i class="bi bi-people"></i></span>
+                            Manage Users
+                        </a>
+
+                        <a class="nav-link @(currentController == "Ticket" && currentAction == "AssignTickets" ? "active" : "")"
+                           asp-controller="Ticket"
+                           asp-action="AssignTickets">
+                            <span class="nav-icon"><i class="bi bi-arrow-left-right"></i></span>
+                            Assign Tickets
+                        </a>
+                    }
+                </nav>
+
+                <div class="sidebar-label">Preferences</div>
+
+                <nav>
+                    <a class="nav-link @(currentController == "Settings" ? "active" : "")"
+                       asp-controller="Settings"
+                       asp-action="Index">
+                        <span class="nav-icon"><i class="bi bi-gear"></i></span>
+                        Settings
+                    </a>
+
+                    <a class="nav-link @(currentController == "Home" && currentAction == "Privacy" ? "active" : "")"
+                       asp-controller="Home"
+                       asp-action="Privacy">
+                        <span class="nav-icon"><i class="bi bi-shield-check"></i></span>
+                        Privacy
+                    </a>
+                </nav>
+            }
+            else
+            {
+                <div class="sidebar-label">General</div>
+
+                <nav>
+                    <a class="nav-link" asp-controller="Account" asp-action="Login">
+                        <span class="nav-icon"><i class="bi bi-box-arrow-in-right"></i></span>
+                        Login
+                    </a>
+
+                    <a class="nav-link" asp-controller="Account" asp-action="Register">
+                        <span class="nav-icon"><i class="bi bi-person-plus"></i></span>
+                        Register
+                    </a>
+
+                    <a class="nav-link" asp-controller="Home" asp-action="Privacy">
+                        <span class="nav-icon"><i class="bi bi-shield-check"></i></span>
+                        Privacy
+                    </a>
+                </nav>
+            }
+
+            <div class="sidebar-spacer"></div>
+
+            <div class="sidebar-footer">
+                <strong>IT Helpdesk Management System</strong>
+                <div>Support made simple.</div>
+                <div class="mt-2">© @DateTime.Now.Year</div>
+            </div>
+
+        </aside>
+
+        <!-- Main area -->
+        <div class="main-area">
+
+            <header class="topbar">
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <button class="mobile-menu-button"
+                            type="button"
+                            id="menuToggle"
+                            aria-label="Toggle navigation"
+                            aria-expanded="false">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                    <div>
+                        <h1>@(ViewData["Title"] ?? "Dashboard")</h1>
+                        <div class="topbar-subtitle">
+                            Manage your IT support requests in one place.
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="topbar-actions">
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        var userEmail = User.FindFirst(
+                            System.Security.Claims.ClaimTypes.Email)?.Value
+                            ?? User.Identity.Name
+                            ?? "No email available";
+
+                        var userName = User.Identity.Name ?? "User";
+                        var avatarLetter = !string.IsNullOrWhiteSpace(userEmail)
+                            ? userEmail.Substring(0, 1).ToUpper()
+                            : "U";
+
+                        <!-- Notifications -->
+                        <div class="dropdown">
+
+                            <button class="btn notification-button position-relative"
+                                    type="button"
+                                    id="notificationDropdown"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    title="Notifications">
+
+                                <i class="bi bi-bell fs-5"></i>
+
+                                <span id="notificationCount"
+                                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                      style="display:none;">
+                                    0
+                                </span>
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end shadow"
+                                id="notificationList"
+                                aria-labelledby="notificationDropdown"
+                                style="width:350px; max-height:400px; overflow-y:auto;">
+
+                                <li class="dropdown-header fw-bold">Notifications</li>
+
+                                <li>
+                                    <span class="dropdown-item-text text-muted">
+                                        Loading notifications...
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Profile dropdown -->
+                        <div class="dropdown">
+
+                            <button class="profile-toggle dropdown-toggle"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+
+                                <span class="profile-avatar">
+                                    @avatarLetter
+                                </span>
+
+                                <span class="profile-info">
+                                    <strong>@userName</strong>
+                                    <small>
+                                        @(User.IsInRole("Admin") ? "Administrator" :
+                                            User.IsInRole("SupportStaff") ? "Support Staff" : "User")
+                                    </small>
+                                </span>
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end profile-menu">
+
+                                <li>
+                                    <div class="profile-menu-header">
+
+                                        <span class="profile-avatar">
+                                            @avatarLetter
+                                        </span>
+
+                                        <div class="overflow-hidden">
+                                            <strong class="d-block text-truncate">
+                                                @userName
+                                            </strong>
+                                            <small class="text-muted text-truncate d-block">
+                                                @userEmail
+                                            </small>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Settings"
+                                       asp-action="Index">
+                                        <i class="bi bi-person-circle"></i>
+                                        My Profile
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Settings"
+                                       asp-action="Index">
+                                        <i class="bi bi-gear"></i>
+                                        Account Settings
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Notification"
+                                       asp-action="Index">
+                                        <i class="bi bi-bell"></i>
+                                        Notifications
+                                    </a>
+                                </li>
+
+                                <li><hr class="dropdown-divider" /></li>
+
+                                <li>
+                                    <form asp-controller="Account"
+                                          asp-action="Logout"
+                                          method="post">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit"
+                                                class="dropdown-item logout-item">
+                                            <i class="bi bi-box-arrow-right"></i>
+                                            Logout
+                                        </button>
+                                    </form>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="topbar-tag">
+                            <span class="status-dot"></span>
+                            Helpdesk Portal
+                        </div>
+                    }
+                    else
+                    {
+                        @* No top-right Login button *@
+                    }
+
+                </div>
+
+            </header>
+
+            <main class="page-content">
+                @RenderBody()
+            </main>
+
+            <footer class="app-footer">
+
+                <div class="d-flex flex-wrap justify-content-between gap-2">
+
+                    <span>
+                        © @DateTime.Now.Year IT Helpdesk Management System
+                    </span>
+
+                    <span>
+                        Built for better IT support ·
+                        <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </span>
+
+                </div>
+
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+            const menuToggle = document.getElementById("menuToggle");
+            const sidebar = document.getElementById("sidebar");
+
+            if (menuToggle && sidebar) {
+                menuToggle.addEventListener("click", function() {
+                    const isOpen = sidebar.classList.toggle("mobile-open");
+                    menuToggle.setAttribute("aria-expanded", isOpen);
+                });
+            }
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/10.0.0/signalr.min.js"></script>
+        <script src="~/js/ticketHub.js" asp-append-version="true"></script>
+    }
+
+</body>
+</html>

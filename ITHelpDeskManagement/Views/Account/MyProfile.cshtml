@@ -1,0 +1,393 @@
+﻿```cshtml
+@model ITHelpDeskManagement.Models.MyProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Page Heading -->
+            <div class="mb-4">
+                <span class="profile-eyebrow">ACCOUNT</span>
+                <h2 class="profile-heading">My Profile</h2>
+                <p class="text-muted">
+                    Manage your personal information and account security.
+                </p>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="card profile-card border-0 shadow-sm">
+
+                <div class="profile-card-header">
+                    <div class="profile-icon">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="mb-1">Personal Information</h5>
+                        <p class="mb-0">
+                            Update your profile details below.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show"
+                             role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            @TempData["Success"]
+
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="alert">
+                            </button>
+                        </div>
+                    }
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger validation-summary">
+                    </div>
+
+                    <form asp-controller="Account"
+                          asp-action="MyProfile"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <!-- Full Name -->
+                        <div class="mb-4">
+                            <label asp-for="FullName"
+                                   class="form-label profile-label">
+                            </label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person"></i>
+                                </span>
+
+                                <input asp-for="FullName"
+                                       class="form-control"
+                                       placeholder="Enter your full name"
+                                       autocomplete="name" />
+                            </div>
+
+                            <span asp-validation-for="FullName"
+                                  class="text-danger validation-message">
+                            </span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-4">
+                            <label asp-for="Email"
+                                   class="form-label profile-label">
+                            </label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+
+                                <input asp-for="Email"
+                                       type="email"
+                                       class="form-control"
+                                       placeholder="Enter your email address"
+                                       autocomplete="email" />
+                            </div>
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger validation-message">
+                            </span>
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="mb-4">
+                            <label asp-for="PhoneNumber"
+                                   class="form-label profile-label">
+                            </label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-telephone"></i>
+                                </span>
+
+                                <input asp-for="PhoneNumber"
+                                       type="tel"
+                                       class="form-control"
+                                       placeholder="Enter your phone number"
+                                       autocomplete="tel" />
+                            </div>
+
+                            <span asp-validation-for="PhoneNumber"
+                                  class="text-danger validation-message">
+                            </span>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="d-flex justify-content-between flex-wrap gap-2">
+
+                            <a asp-controller="Settings"
+                               asp-action="Index"
+                               class="btn btn-outline-secondary profile-back-btn">
+                                <i class="bi bi-arrow-left me-2"></i>
+                                Back to Settings
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary profile-save-btn">
+                                <i class="bi bi-check2-circle me-2"></i>
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- Security Card -->
+            <div class="card security-card border-0 shadow-sm mt-4">
+
+                <div class="security-card-header">
+                    <div class="security-icon">
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+
+                    <div>
+                        <h5 class="mb-1">Password & Security</h5>
+                        <p class="mb-0">
+                            Keep your account secure by updating your password.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                        <div>
+                            <strong class="security-title">
+                                Change Your Password
+                            </strong>
+
+                            <p class="security-description mb-0">
+                                Update your current password to protect your account.
+                            </p>
+                        </div>
+
+                        <a asp-controller="Settings"
+                           asp-action="ChangePassword"
+                           class="btn btn-security">
+                            <i class="bi bi-key me-2"></i>
+                            Change Password
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="profile-note mt-3">
+                <i class="bi bi-shield-check me-2"></i>
+                Your profile information is protected by account authentication.
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+
+    .profile-eyebrow {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: #4263eb;
+    }
+
+    .profile-heading {
+        font-size: 26px;
+        font-weight: 750;
+        color: #172b4d;
+        margin: 6px 0;
+    }
+
+    .profile-card,
+    .security-card {
+        border-radius: 14px;
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .profile-card-header,
+    .security-card-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 22px 25px;
+        border-bottom: 1px solid #edf0f5;
+    }
+
+    .profile-icon,
+    .security-icon {
+        width: 46px;
+        height: 46px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        font-size: 22px;
+        flex-shrink: 0;
+    }
+
+    .profile-icon {
+        background: #eef2ff;
+        color: #4263eb;
+    }
+
+    .security-icon {
+        background: #f3edff;
+        color: #8b5cf6;
+    }
+
+    .profile-card-header h5,
+    .security-card-header h5 {
+        font-size: 15px;
+        font-weight: 700;
+        color: #344054;
+    }
+
+    .profile-card-header p,
+    .security-card-header p {
+        font-size: 11px;
+        color: #98a2b3;
+    }
+
+    .profile-label {
+        font-size: 12px;
+        font-weight: 650;
+        color: #344054;
+        margin-bottom: 9px;
+    }
+
+    .profile-card .input-group-text {
+        background: #f8faff;
+        border-color: #dfe5ef;
+        color: #667085;
+        padding: 10px 14px;
+    }
+
+    .profile-card .form-control {
+        min-height: 44px;
+        border-color: #dfe5ef;
+        font-size: 13px;
+        color: #344054;
+    }
+
+        .profile-card .form-control:focus {
+            border-color: #4263eb;
+            box-shadow: 0 0 0 3px rgba(66, 99, 235, .10);
+        }
+
+    .validation-message {
+        display: block;
+        font-size: 11px;
+        margin-top: 6px;
+    }
+
+    .validation-summary:empty {
+        display: none;
+    }
+
+    .validation-summary ul {
+        margin-bottom: 0;
+    }
+
+    .profile-save-btn,
+    .profile-back-btn,
+    .btn-security {
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 650;
+    }
+
+    .profile-save-btn {
+        background: #4263eb;
+        border-color: #4263eb;
+    }
+
+        .profile-save-btn:hover {
+            background: #3451c6;
+            border-color: #3451c6;
+        }
+
+    .security-title {
+        color: #344054;
+        font-size: 13px;
+    }
+
+    .security-description {
+        color: #98a2b3;
+        font-size: 11px;
+        margin-top: 5px;
+    }
+
+    .btn-security {
+        background: #eef2ff;
+        color: #4263eb;
+        border: 1px solid #dce4ff;
+        text-decoration: none;
+        transition: all .2s;
+    }
+
+        .btn-security:hover {
+            background: #4263eb;
+            color: #ffffff;
+        }
+
+    .profile-note {
+        font-size: 11px;
+        color: #667085;
+    }
+
+    @@media (max-width: 576px) {
+
+        .profile-heading {
+            font-size: 22px;
+        }
+
+        .profile-card-header,
+        .security-card-header {
+            padding: 18px;
+        }
+
+        .profile-card .card-body,
+        .security-card .card-body {
+            padding: 20px !important;
+        }
+
+        .profile-back-btn,
+        .profile-save-btn {
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-security {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

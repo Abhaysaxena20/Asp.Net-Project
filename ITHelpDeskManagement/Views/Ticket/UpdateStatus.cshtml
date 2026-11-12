@@ -1,0 +1,121 @@
+﻿@model ITHelpDeskManagement.Models.Ticket
+
+@{
+    ViewData["Title"] = "Update Ticket Status";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Update Ticket Status</h4>
+        </div>
+
+        <div class="card-body">
+
+            <!-- Ticket ID -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Ticket ID</label>
+                <input class="form-control"
+                       value="@Model.TicketId"
+                       readonly />
+            </div>
+
+            <!-- Ticket Title -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Title</label>
+                <input class="form-control"
+                       value="@Model.Title"
+                       readonly />
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Description</label>
+                <textarea class="form-control"
+                          rows="3"
+                          readonly>@Model.Description</textarea>
+            </div>
+
+            <!-- Current Status -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Current Status</label>
+                <input class="form-control"
+                       value="@Model.Status"
+                       readonly />
+            </div>
+
+            <hr />
+
+            <form asp-action="UpdateStatus"
+                  asp-controller="Ticket"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.TicketId" />
+
+                <!-- New Status -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">
+                        Select New Status
+                    </label>
+
+                    <select name="status"
+                            class="form-select"
+                            required>
+
+                        <option value="Open"
+                                selected="@(Model.Status == "Open" ? "selected" : null)">
+                            Open
+                        </option>
+
+                        <option value="In Progress"
+                                selected="@(Model.Status == "In Progress" ? "selected" : null)">
+                            In Progress
+                        </option>
+
+                        <option value="Resolved"
+                                selected="@(Model.Status == "Resolved" ? "selected" : null)">
+                            Resolved
+                        </option>
+
+                    </select>
+                </div>
+
+                <!-- Work Remarks -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">
+                        Work Remarks
+                    </label>
+
+                    <textarea name="remarks"
+                              class="form-control"
+                              rows="4"
+                              maxlength="500"
+                              placeholder="Describe the work performed..."></textarea>
+
+                    <small class="text-muted">
+                        Maximum 500 characters.
+                    </small>
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Update Status
+                </button>
+
+                <a asp-action="Details"
+                   asp-route-id="@Model.TicketId"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+</div>

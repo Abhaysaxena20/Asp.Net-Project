@@ -1,0 +1,461 @@
+﻿@model IEnumerable<ITHelpDeskManagement.ViewModels.AddCommentHistoryViewModel>
+
+@{
+    ViewData["Title"] = "Comment History";
+
+    var comments = Model?.ToList() ?? new List<ITHelpDeskManagement.ViewModels.AddCommentHistoryViewModel>();
+}
+
+<style>
+    .comments-page {
+        max-width: 1500px;
+        margin: auto;
+    }
+
+    .comments-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 24px;
+    }
+
+        .comments-header h2 {
+            font-size: 25px;
+            font-weight: 700;
+            color: #1d2939;
+            margin-bottom: 5px;
+        }
+
+    .comments-subtitle {
+        color: #667085;
+        font-size: 13px;
+    }
+
+    .comments-count {
+        background: #eaf0ff;
+        color: #315fce;
+        padding: 9px 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .comments-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .summary-card {
+        background: white;
+        border: 1px solid #e5eaf2;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .summary-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 11px;
+        display: grid;
+        place-items: center;
+        font-size: 21px;
+        background: #eaf0ff;
+        color: #4678f8;
+    }
+
+    .summary-card h3 {
+        font-size: 23px;
+        font-weight: 700;
+        margin: 0;
+        color: #1d2939;
+    }
+
+    .summary-card p {
+        margin: 3px 0 0;
+        font-size: 12px;
+        color: #667085;
+    }
+
+    .comments-panel {
+        background: white;
+        border: 1px solid #e5eaf2;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .panel-heading {
+        padding: 19px 22px;
+        border-bottom: 1px solid #e5eaf2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+        .panel-heading h5 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1d2939;
+        }
+
+    .comments-table {
+        margin: 0;
+        min-width: 850px;
+    }
+
+        .comments-table thead th {
+            background: #f9fafb;
+            color: #667085;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            padding: 15px;
+            border-bottom: 1px solid #e5eaf2;
+        }
+
+        .comments-table tbody td {
+            padding: 17px 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f0f2f5;
+            color: #344054;
+            font-size: 13px;
+        }
+
+        .comments-table tbody tr:hover {
+            background: #fafbff;
+        }
+
+    .ticket-number {
+        color: #4678f8;
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+    .ticket-title {
+        font-weight: 600;
+        color: #1d2939;
+        margin-top: 5px;
+        max-width: 200px;
+    }
+
+    .author-info {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-width: 180px;
+    }
+
+    .author-avatar {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: #eaf0ff;
+        color: #315fce;
+        font-weight: 700;
+    }
+
+    .author-email {
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+    .role-badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .role-admin {
+        background: #f3e8ff;
+        color: #7e22ce;
+    }
+
+    .role-support {
+        background: #e0f2fe;
+        color: #0369a1;
+    }
+
+    .role-user {
+        background: #ecfdf3;
+        color: #027a48;
+    }
+
+    .comment-text {
+        max-width: 300px;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        line-height: 1.6;
+    }
+
+    .creator-email {
+        color: #475467;
+        overflow-wrap: anywhere;
+        max-width: 180px;
+    }
+
+    .comment-date {
+        white-space: nowrap;
+        color: #667085;
+        font-size: 12px;
+    }
+
+    .view-ticket-btn {
+        background: #edf2ff;
+        color: #315fce;
+        border: none;
+        border-radius: 7px;
+        padding: 7px 11px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .view-ticket-btn:hover {
+            background: #dce7ff;
+            color: #2149a5;
+        }
+
+    .empty-state {
+        padding: 65px 20px;
+        text-align: center;
+    }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #98a2b3;
+        }
+
+        .empty-state h5 {
+            margin-top: 15px;
+            color: #344054;
+            font-weight: 700;
+        }
+
+        .empty-state p {
+            color: #667085;
+            font-size: 13px;
+        }
+
+    @@media(max-width: 768px) {
+        .comments-header h2 {
+            font-size: 21px;
+        }
+
+        .panel-heading {
+            padding: 15px;
+        }
+    }
+</style>
+
+<div class="comments-page">
+
+    <!-- Page Heading -->
+    <div class="comments-header">
+        <div>
+            <h2>
+                <i class="bi bi-chat-left-text me-2"></i>
+                Comment History
+            </h2>
+            <div class="comments-subtitle">
+                View conversations and comments across your accessible tickets.
+            </div>
+        </div>
+
+        <div class="comments-count">
+            <i class="bi bi-chat-dots me-1"></i>
+            @comments.Count Comments
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="comments-summary">
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="bi bi-chat-square-text"></i>
+            </div>
+            <div>
+                <h3>@comments.Count</h3>
+                <p>Total Comments</p>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+            <div>
+                <h3>@comments.Count(c => c.AuthorRole == "Admin")</h3>
+                <p>Admin Comments</p>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="bi bi-headset"></i>
+            </div>
+            <div>
+                <h3>@comments.Count(c => c.AuthorRole == "SupportStaff")</h3>
+                <p>Support Staff Comments</p>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">
+                <i class="bi bi-people"></i>
+            </div>
+            <div>
+                <h3>@comments.Select(c => c.TicketId).Distinct().Count()</h3>
+                <p>Tickets Discussed</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Comments Table -->
+    <div class="comments-panel">
+
+        <div class="panel-heading">
+            <div>
+                <h5>
+                    <i class="bi bi-list-ul me-2"></i>
+                    All Comments
+                </h5>
+                <small class="text-muted">
+                    Latest comments appear first.
+                </small>
+            </div>
+        </div>
+
+        @if (!comments.Any())
+        {
+            <div class="empty-state">
+                <i class="bi bi-chat-square-dots"></i>
+                <h5>No comments found</h5>
+                <p>There are no comments available for your account yet.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table comments-table">
+
+                    <thead>
+                        <tr>
+                            <th>Ticket</th>
+                            <th>Commented By</th>
+                            <th>Role</th>
+                            <th>Comment</th>
+                            <th>Ticket Creator</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in comments)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="ticket-number">
+                                        #@item.TicketId
+                                    </div>
+                                    <div class="ticket-title">
+                                        @item.TicketTitle
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="author-info">
+                                        <div class="author-avatar">
+                                            @(string.IsNullOrEmpty(item.AuthorEmail)
+                                                ? "?"
+                                                : item.AuthorEmail.Substring(0, 1).ToUpper())
+                                        </div>
+
+                                        <div class="author-email">
+                                            @item.AuthorEmail
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    @if (item.AuthorRole == "Admin")
+                                    {
+                                        <span class="role-badge role-admin">
+                                            Admin
+                                        </span>
+                                    }
+                                    else if (item.AuthorRole == "SupportStaff")
+                                    {
+                                        <span class="role-badge role-support">
+                                            Support Staff
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="role-badge role-user">
+                                            User
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <div class="comment-text">
+                                        @item.CommentText
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="creator-email">
+                                        @item.TicketCreatorEmail
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="comment-date">
+                                        <i class="bi bi-calendar3 me-1"></i>
+                                        @item.CommentDate.ToString("dd MMM yyyy")
+                                        <br />
+                                        <i class="bi bi-clock me-1"></i>
+                                        @item.CommentDate.ToString("hh:mm tt")
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <a asp-controller="Ticket"
+                                       asp-action="Details"
+                                       asp-route-id="@item.TicketId"
+                                       class="view-ticket-btn">
+                                        <i class="bi bi-eye me-1"></i>
+                                        View Ticket
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+</div>

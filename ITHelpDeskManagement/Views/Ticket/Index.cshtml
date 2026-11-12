@@ -1,0 +1,358 @@
+﻿@model IEnumerable<ITHelpDeskManagement.Models.Ticket>
+
+@{
+    ViewData["Title"] = "All Tickets";
+}
+
+<div class="container-fluid px-0">
+
+    <!-- Success Message -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["Success"]
+            <button type="button" class="btn-close"
+                    data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Page Heading -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">All Tickets</h2>
+            <p class="text-muted mb-0">
+                Manage and track support requests.
+            </p>
+        </div>
+    </div>
+
+    <!-- Search and Filter Form -->
+    <form asp-action="Index" method="get" class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <div class="row g-3 align-items-end">
+
+                <div class="col-lg-5 col-md-6">
+                    <label for="searchString" class="form-label fw-semibold">
+                        Search Tickets
+                    </label>
+                    <input type="text"
+                           id="searchString"
+                           name="searchString"
+                           value="@Context.Request.Query["searchString"]"
+                           class="form-control"
+                           placeholder="Search by title or description..." />
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <label for="status" class="form-label fw-semibold">
+                        Status
+                    </label>
+                    <select id="status" name="status" class="form-select">
+                        <option value="">All Statuses</option>
+                        <option value="Open"
+                                selected="@(Context.Request.Query["status"] == "Open")">
+                            Open
+                        </option>
+                        <option value="In Progress"
+                                selected="@(Context.Request.Query["status"] == "In Progress")">
+                            In Progress
+                        </option>
+                        <option value="Resolved"
+                                selected="@(Context.Request.Query["status"] == "Resolved")">
+                            Resolved
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6">
+                    <label for="priority" class="form-label fw-semibold">
+                        Priority
+                    </label>
+                    <select id="priority" name="priority" class="form-select">
+                        <option value="">All Priorities</option>
+                        <option value="Low"
+                                selected="@(Context.Request.Query["priority"] == "Low")">
+                            Low
+                        </option>
+                        <option value="Medium"
+                                selected="@(Context.Request.Query["priority"] == "Medium")">
+                            Medium
+                        </option>
+                        <option value="High"
+                                selected="@(Context.Request.Query["priority"] == "High")">
+                            High
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-6 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1">
+                        Search
+                    </button>
+
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        Reset
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <!-- Tickets Table -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-3">Ticket ID</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Created Date</th>
+                            <th class="text-center">Actions</th>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <th class="text-center pe-3">Update Status</th>
+                            }
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var ticket in Model)
+                        {
+                            <tr>
+                                <td class="ps-3 fw-semibold">
+                                    #@ticket.TicketId
+                                </td>
+
+                                <td class="fw-semibold">
+                                    @ticket.Title
+                                </td>
+
+                                <td>
+                                    <span class="text-muted">
+                                        @(string.IsNullOrEmpty(ticket.Description)
+                                            ? ""
+                                            : ticket.Description.Length > 45
+                                                ? ticket.Description.Substring(0, 45) + "..."
+                                                : ticket.Description)
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @if (ticket.Status == "Open")
+                                    {
+                                        <span class="badge rounded-pill bg-primary-subtle text-primary px-3 py-2">
+                                            Open
+                                        </span>
+                                    }
+                                    else if (ticket.Status == "In Progress")
+                                    {
+                                        <span class="badge rounded-pill bg-warning-subtle text-dark px-3 py-2">
+                                            In Progress
+                                        </span>
+                                    }
+                                    else if (ticket.Status == "Resolved")
+                                    {
+                                        <span class="badge rounded-pill bg-success-subtle text-success px-3 py-2">
+                                            Resolved
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge rounded-pill bg-secondary-subtle text-secondary px-3 py-2">
+                                            @ticket.Status
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (ticket.Priority == "High")
+                                    {
+                                        <span class="badge bg-danger-subtle text-danger px-3 py-2">
+                                            High
+                                        </span>
+                                    }
+                                    else if (ticket.Priority == "Medium")
+                                    {
+                                        <span class="badge bg-warning-subtle text-dark px-3 py-2">
+                                            Medium
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-info-subtle text-info-emphasis px-3 py-2">
+                                            @ticket.Priority
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="text-nowrap">
+                                    @ticket.CreatedAt.ToString("dd MMM yyyy")
+                                    <div class="small text-muted">
+                                        @ticket.CreatedAt.ToString("hh:mm tt")
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex gap-2">
+
+                                        <a asp-controller="Ticket"
+                                           asp-action="Details"
+                                           asp-route-id="@ticket.TicketId"
+                                           class="btn btn-sm btn-info">
+                                            <i class="bi bi-eye"></i> Details
+                                        </a>
+
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a asp-controller="Ticket"
+                                               asp-action="Edit"
+                                               asp-route-id="@ticket.TicketId"
+                                               class="btn btn-sm btn-primary">
+                                                <i class="bi bi-pencil-square"></i> Edit
+                                            </a>
+
+                                            <a asp-controller="Ticket"
+                                               asp-action="Delete"
+                                               asp-route-id="@ticket.TicketId"
+                                               class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </a>
+                                        }
+                                        else if (
+                                            ticket.CreatedByUserId == User.FindFirst(
+                                                System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+                                            && ticket.Status == "Open")
+                                        {
+                                            <a asp-controller="Ticket"
+                                               asp-action="Edit"
+                                               asp-route-id="@ticket.TicketId"
+                                               class="btn btn-sm btn-primary">
+                                                <i class="bi bi-pencil-square"></i> Edit
+                                            </a>
+
+                                            <a asp-controller="Ticket"
+                                               asp-action="Delete"
+                                               asp-route-id="@ticket.TicketId"
+                                               class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </a>
+                                        }
+
+                                    </div>
+                                </td>
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <td class="pe-3">
+                                        <form asp-controller="Ticket"
+                                              asp-action="UpdateStatus"
+                                              method="post"
+                                              class="status-update-form">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <input type="hidden"
+                                                   name="id"
+                                                   value="@ticket.TicketId" />
+
+                                            <select name="status"
+                                                    class="form-select form-select-sm mb-2"
+                                                    aria-label="New status for ticket @ticket.TicketId">
+
+                                                <option value="Open"
+                                                        selected="@(ticket.Status == "Open")">
+                                                    Open
+                                                </option>
+
+                                                <option value="In Progress"
+                                                        selected="@(ticket.Status == "In Progress")">
+                                                    In Progress
+                                                </option>
+
+                                                <option value="Resolved"
+                                                        selected="@(ticket.Status == "Resolved")">
+                                                    Resolved
+                                                </option>
+                                            </select>
+
+                                            <button type="submit"
+                                                    class="btn btn-primary btn-sm w-100">
+                                                Update
+                                            </button>
+                                        </form>
+                                    </td>
+                                }
+                            </tr>
+                        }
+
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="@(User.IsInRole("Admin") ? 8 : 7)"
+                                    class="text-center py-5">
+
+                                    <h5 class="text-muted">No tickets found</h5>
+
+                                    <p class="text-muted mb-3">
+                                        Create a ticket to get started.
+                                    </p>
+
+                                    <a asp-action="Create" class="btn btn-primary">
+                                        <i class="bi bi-plus-circle"></i> Create Ticket
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .action-btn {
+        min-width: 68px;
+        height: 32px;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        white-space: nowrap;
+    }
+
+    .status-update-form {
+        min-width: 130px;
+        max-width: 160px;
+        margin: 0 auto;
+    }
+
+    .table th {
+        font-size: 13px;
+        font-weight: 600;
+        color: #495057;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        white-space: nowrap;
+    }
+
+    .table td {
+        padding-top: 14px;
+        padding-bottom: 14px;
+        font-size: 13px;
+    }
+</style>

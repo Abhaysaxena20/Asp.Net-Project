@@ -1,0 +1,70 @@
+﻿@model IEnumerable<ITHelpDeskManagement.Models.Ticket>
+
+@{
+    ViewData["Title"] = "My Assigned Tickets";
+}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="fw-bold mb-1">My Assigned Tickets</h2>
+
+    <p class="text-muted mb-4">
+        View and manage support tickets assigned to you.
+    </p>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="p-3">Ticket ID</th>
+                        <th class="p-3">Title</th>
+                        <th class="p-3">Priority</th>
+                        <th class="p-3">Status</th>
+                        <th class="p-3 text-center">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var ticket in Model)
+                        {
+                            <tr>
+                                <td class="p-3 fw-semibold">
+                                    #@ticket.TicketId
+                                </td>
+
+                                <td class="p-3">@ticket.Title</td>
+
+                                <td class="p-3">@ticket.Priority</td>
+
+                                <td class="p-3">@ticket.Status</td>
+
+                                <td class="p-3 text-center">
+                                    <a asp-action="Details"
+                                       asp-route-id="@ticket.TicketId"
+                                       class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                                        View Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5"
+                                class="text-center p-5 text-muted">
+                                <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                                No tickets have been assigned to you yet.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

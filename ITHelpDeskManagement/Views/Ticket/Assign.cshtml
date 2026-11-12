@@ -1,0 +1,89 @@
+﻿@model ITHelpDeskManagement.Models.Ticket
+@using Microsoft.AspNetCore.Identity
+@using System.Collections.Generic
+@using System.Linq
+
+@{
+    ViewData["Title"] = "Assign Ticket";
+
+    var staff = ViewBag.Staff as IEnumerable<IdentityUser>
+        ?? Enumerable.Empty<IdentityUser>();
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-4"
+         style="max-width: 650px; margin: auto;">
+
+        <div class="card-header bg-success text-white p-3">
+            <h4 class="mb-0">
+                <i class="bi bi-person-check me-2"></i>
+                Assign Ticket
+            </h4>
+        </div>
+
+        <div class="card-body p-4">
+
+            <p><strong>Ticket ID:</strong> #@Model.TicketId</p>
+            <p><strong>Title:</strong> @Model.Title</p>
+            <p><strong>Current Status:</strong> @Model.Status</p>
+
+            <hr />
+
+            <form asp-controller="Ticket"
+                  asp-action="Assign"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="id"
+                       value="@Model.TicketId" />
+
+                <select name="assignedTo" id="assignedTo" class="form-select">
+
+                    <option value="">-- Unassigned --</option>
+
+                    @foreach (var person in staff)
+                    {
+                        <option value="@person.Id"
+                                selected="@(Model.AssignedTo == person.Id)">
+                            @(person.Email ?? person.UserName ?? person.Id)
+                        </option>
+                    }
+
+                </select>
+
+                @if (!staff.Any())
+                {
+                    <p class="text-danger mt-2">
+                        No Support Staff members were found.
+                    </p>
+                }
+
+                <div class="d-flex gap-2 flex-wrap">
+
+                    <button type="submit"
+                            class="btn btn-success rounded-pill px-4">
+                        <i class="bi bi-check-circle me-1"></i>
+                        Save Assignment
+                    </button>
+
+                    <a asp-controller="Ticket"
+                       asp-action="Details"
+                       asp-route-id="@Model.TicketId"
+                       class="btn btn-outline-secondary rounded-pill px-4">
+                        Cancel
+                    </a>
+
+                    <a asp-controller="Ticket"
+                       asp-action="AssignTickets"
+                       class="btn btn-outline-primary rounded-pill px-4">
+                        Back to All Tickets
+                    </a>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

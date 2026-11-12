@@ -1,0 +1,140 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFramework = net10.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.EntryPointFilePath = 
+build_property.RootNamespace = ITHelpDeskManagement
+build_property.RootNamespace = ITHelpDeskManagement
+build_property.ProjectDir = D:\CollegeProejcts\ITHelpDeskSystem\ITHelpDeskManagement\ITHelpDeskManagement\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 10.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\CollegeProejcts\ITHelpDeskSystem\ITHelpDeskManagement\ITHelpDeskManagement
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Account/MyProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxNeVByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Account/Users.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxVc2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Notification/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90aWZpY2F0aW9uXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Settings/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcQ2hhbmdlUGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Settings/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2V0dGluZ3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/AddCommentHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XEFkZENvbW1lbnRIaXN0b3J5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/Assign.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XEFzc2lnbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/AssignTickets.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XEFzc2lnblRpY2tldHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/ChangeStatus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XENoYW5nZVN0YXR1cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/Comments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XENvbW1lbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/History.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XEhpc3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/MyAssignedTickets.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XE15QXNzaWduZWRUaWNrZXRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Ticket/UpdateStatus.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGlja2V0XFVwZGF0ZVN0YXR1cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CollegeProejcts/ITHelpDeskSystem/ITHelpDeskManagement/ITHelpDeskManagement/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-i8opz6tpg1

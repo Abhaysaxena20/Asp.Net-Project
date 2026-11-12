@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ITHelpDeskManagement.Models.TicketStatusHistory>
+
+@{
+    ViewData["Title"] = "Ticket Status History";
+    var ticket = ViewBag.Ticket as ITHelpDeskManagement.Models.Ticket;
+}
+
+<h2>Ticket Status History</h2>
+
+@if (ticket != null)
+{
+    <h5>Ticket #@ticket.TicketId - @ticket.Title</h5>
+}
+
+<table class="table table-bordered table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Old Status</th>
+            <th>New Status</th>
+            <th>Remarks</th>
+            <th>Updated By</th>
+            <th>Date & Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.OldStatus</td>
+                    <td>@item.NewStatus</td>
+                    <td>@item.Remarks</td>
+                    <td>@item.UpdatedBy</td>
+                    <td>@item.UpdatedAt.ToString("dd MMM yyyy, hh:mm tt")</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">
+                    No status history found for this ticket.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Tickets</a>

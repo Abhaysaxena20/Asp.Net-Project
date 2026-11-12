@@ -1,0 +1,882 @@
+﻿@model ITHelpDeskManagement.Models.Ticket
+@using ITHelpDeskManagement.Models
+@using System.Linq
+
+@{
+    ViewData["Title"] = "Ticket Details";
+
+    string statusClass = Model.Status switch
+    {
+        "Open" => "status-open",
+        "In Progress" => "status-progress",
+        "Resolved" => "status-resolved",
+        _ => "status-default"
+    };
+
+    string priorityClass = Model.Priority switch
+    {
+        "High" => "priority-high",
+        "Medium" => "priority-medium",
+        "Low" => "priority-low",
+        _ => "priority-default"
+    };
+
+    var history = ViewBag.StatusHistory as List<TicketStatusHistory>;
+}
+
+<style>
+
+    .ticket-page {
+        max-width: 1200px;
+        margin: auto;
+        padding: 25px 10px 40px;
+        color: #172033;
+    }
+
+    .page-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+        .page-heading h2 {
+            font-size: 27px;
+            font-weight: 750;
+            margin-bottom: 5px;
+        }
+
+    .subtitle {
+        color: #64748b;
+        margin: 0;
+    }
+
+    .ticket-card {
+        background: #fff;
+        border: 1px solid #e8edf5;
+        border-radius: 15px;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, .045);
+        margin-bottom: 22px;
+        overflow: hidden;
+    }
+
+    .card-heading {
+        padding: 19px 24px;
+        border-bottom: 1px solid #edf0f5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+        .card-heading h4 {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .card-body {
+        padding: 25px;
+    }
+
+    .ticket-id {
+        color: #64748b;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .ticket-title {
+        font-size: 25px;
+        font-weight: 750;
+        line-height: 1.4;
+        margin-bottom: 17px;
+        overflow-wrap: anywhere;
+    }
+
+    .ticket-description {
+        background: #f8fafc;
+        border: 1px solid #edf0f5;
+        border-radius: 11px;
+        padding: 18px;
+        color: #475569;
+        line-height: 1.8;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        margin: 0;
+    }
+
+    .section-label {
+        display: block;
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 750;
+        text-transform: uppercase;
+        letter-spacing: .7px;
+        margin-bottom: 10px;
+    }
+
+    .ticket-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 13px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .status-open {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .status-progress {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-resolved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-default {
+        background: #e2e8f0;
+        color: #334155;
+    }
+
+    .priority-high {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .priority-medium {
+        background: #ffedd5;
+        color: #9a3412;
+    }
+
+    .priority-low {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .priority-default {
+        background: #e2e8f0;
+        color: #334155;
+    }
+
+    .creator-box {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        padding: 17px;
+        border-radius: 12px;
+        margin-top: 22px;
+    }
+
+    .creator-icon {
+        width: 43px;
+        height: 43px;
+        border-radius: 50%;
+        background: #dbeafe;
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        flex-shrink: 0;
+    }
+
+    .creator-email {
+        font-weight: 650;
+        color: #1e40af;
+        overflow-wrap: anywhere;
+    }
+
+    .info-box {
+        height: 100%;
+        padding: 20px;
+        border: 1px solid #edf0f5;
+        background: #fafbfe;
+        border-radius: 12px;
+    }
+
+    .info-icon {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: #eaf1ff;
+        color: #2563eb;
+        font-size: 17px;
+        margin-bottom: 14px;
+    }
+
+    .info-value {
+        font-size: 16px;
+        font-weight: 700;
+        color: #172033;
+        overflow-wrap: anywhere;
+    }
+
+    .info-small {
+        font-size: 12px;
+        color: #64748b;
+        margin-top: 5px;
+    }
+
+    .history-table {
+        margin-bottom: 0;
+    }
+
+        .history-table th {
+            background: #f8fafc;
+            color: #475569;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            white-space: nowrap;
+            padding: 14px;
+        }
+
+        .history-table td {
+            padding: 14px;
+            color: #475569;
+            vertical-align: middle;
+        }
+
+    .empty-history {
+        text-align: center;
+        padding: 30px 15px;
+        color: #64748b;
+        background: #f8fafc;
+        border-radius: 11px;
+    }
+
+        .empty-history i {
+            font-size: 27px;
+            display: block;
+            margin-bottom: 10px;
+            color: #94a3b8;
+        }
+
+    /* Comments Section */
+
+    .comment-item {
+        padding: 18px;
+        border: 1px solid #edf0f5;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        background: #fafbfe;
+    }
+
+    .comment-user {
+        font-weight: 700;
+        color: #1e40af;
+        overflow-wrap: anywhere;
+    }
+
+    .comment-date {
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .comment-text {
+        color: #475569;
+        line-height: 1.7;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        margin-top: 12px;
+        margin-bottom: 0;
+    }
+
+    .comment-form textarea {
+        min-height: 110px;
+        resize: vertical;
+    }
+
+    .empty-comments {
+        text-align: center;
+        padding: 25px;
+        color: #64748b;
+        background: #f8fafc;
+        border-radius: 11px;
+    }
+
+    @@media (max-width: 576px) {
+
+        .ticket-page {
+            padding: 18px 5px 30px;
+        }
+
+        .page-heading h2 {
+            font-size: 22px;
+        }
+
+        .card-body {
+            padding: 18px;
+        }
+
+        .card-heading {
+            padding: 17px;
+        }
+
+        .ticket-title {
+            font-size: 21px;
+        }
+    }
+
+</style>
+
+<div class="ticket-page">
+
+    <!-- Page Heading -->
+    <div class="page-heading">
+
+        <div>
+            <h2>Ticket Details</h2>
+
+            <p class="subtitle">
+                Review your IT support request and its activity history.
+            </p>
+        </div>
+
+        <div>
+            <a asp-controller="Ticket"
+               asp-action="Index"
+               class="btn btn-primary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+                Back to Tickets
+
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Ticket Overview -->
+    <div class="ticket-card">
+
+        <div class="card-heading">
+
+            <h4>
+                <i class="bi bi-ticket-detailed text-primary me-2"></i>
+                Ticket Overview
+            </h4>
+
+            <span class="ticket-id">
+                TICKET #@Model.TicketId
+            </span>
+
+        </div>
+
+        <div class="card-body">
+
+            <h3 class="ticket-title">
+                @Model.Title
+            </h3>
+
+            <div class="d-flex gap-2 flex-wrap mb-4">
+
+                <span class="ticket-badge @statusClass">
+
+                    <i class="bi bi-circle-fill me-2"
+                       style="font-size: 7px;"></i>
+
+                    @Model.Status
+
+                </span>
+
+                <span class="ticket-badge @priorityClass">
+
+                    <i class="bi bi-flag-fill me-2"></i>
+
+                    @Model.Priority Priority
+
+                </span>
+
+            </div>
+
+            <!-- Issue Description -->
+            <div class="description-section">
+
+                <div class="description-heading">
+
+                    <div class="description-icon">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+
+                    <div>
+                        <h5>Issue Description</h5>
+
+                        <p>
+                            Detailed information provided by the employee
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="description-content">
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        @Model.Description
+                    }
+                    else
+                    {
+                        <span class="text-muted">
+                            No description provided.
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+            <!-- Creator Information -->
+            <div class="creator-box">
+
+                <div class="creator-icon">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+
+                <div>
+
+                    <span class="section-label mb-1">
+                        Reported By
+                    </span>
+
+                    <div class="creator-email">
+
+                        <i class="bi bi-envelope me-1"></i>
+
+                        @(string.IsNullOrWhiteSpace(Model.CreatedByEmail)
+                            ? "Unknown"
+                            : Model.CreatedByEmail)
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Additional Information -->
+    <div class="ticket-card">
+
+        <div class="card-heading">
+
+            <h4>
+                <i class="bi bi-info-circle text-primary me-2"></i>
+                Additional Information
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <!-- Ticket ID -->
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="info-box">
+
+                        <div class="info-icon">
+                            <i class="bi bi-hash"></i>
+                        </div>
+
+                        <span class="section-label">
+                            Ticket ID
+                        </span>
+
+                        <div class="info-value">
+                            #@Model.TicketId
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Created Date -->
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="info-box">
+
+                        <div class="info-icon">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+
+                        <span class="section-label">
+                            Created Date
+                        </span>
+
+                        <div class="info-value">
+                            @Model.CreatedAt.ToString("dd MMM yyyy")
+                        </div>
+
+                        <div class="info-small">
+                            @Model.CreatedAt.ToString("hh:mm tt")
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Current Status -->
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="info-box">
+
+                        <div class="info-icon">
+                            <i class="bi bi-activity"></i>
+                        </div>
+
+                        <span class="section-label">
+                            Current Status
+                        </span>
+
+                        <div>
+
+                            <span class="ticket-badge @statusClass">
+                                @Model.Status
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Priority Level -->
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="info-box">
+
+                        <div class="info-icon">
+                            <i class="bi bi-flag"></i>
+                        </div>
+
+                        <span class="section-label">
+                            Priority Level
+                        </span>
+
+                        <div>
+
+                            <span class="ticket-badge @priorityClass">
+                                @Model.Priority
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Assigned To -->
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="info-box">
+
+                        <div class="info-icon">
+                            <i class="bi bi-person-check"></i>
+                        </div>
+
+                        <span class="section-label">
+                            Assigned To
+                        </span>
+
+                        <div class="info-value">
+
+                            @if (Model.AssignedToUser != null)
+                            {
+                                @Model.AssignedToUser.Email
+                            }
+                            else
+                            {
+                                <span class="text-muted">
+                                    Not Assigned
+                                </span>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Ticket Activity History -->
+    <div class="ticket-card">
+
+        <div class="card-heading">
+
+            <h4>
+                <i class="bi bi-clock-history text-primary me-2"></i>
+                Ticket Activity History
+            </h4>
+
+            <span class="text-secondary small">
+                Status updates
+            </span>
+
+        </div>
+
+        <div class="card-body">
+
+            @if (history != null && history.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover history-table align-middle">
+
+                        <thead>
+
+                            <tr>
+                                <th>Previous Status</th>
+                                <th>New Status</th>
+                                <th>Remarks</th>
+                                <th>Updated By</th>
+                                <th>Date &amp; Time</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in history)
+                            {
+                                <tr>
+
+                                    <!-- Previous Status -->
+                                    <td>
+                                        @(string.IsNullOrWhiteSpace(item.OldStatus)
+                                            ? "—"
+                                            : item.OldStatus)
+                                    </td>
+
+                                    <!-- New Status -->
+                                    <td>
+
+                                        <span class="ticket-badge @(item.NewStatus == "Resolved" ? "status-resolved" : item.NewStatus == "In Progress" ? "status-progress" : item.NewStatus == "Open" ? "status-open" : "status-default")">
+
+                                            @item.NewStatus
+
+                                        </span>
+
+                                    </td>
+
+                                    <!-- Remarks -->
+                                    <td>
+                                        @(string.IsNullOrWhiteSpace(item.Remarks)
+                                            ? "No remarks"
+                                            : item.Remarks)
+                                    </td>
+
+                                    <!-- Updated By -->
+                                    <td>
+
+                                        <i class="bi bi-person-circle me-1"></i>
+
+                                        @item.UpdatedBy
+
+                                    </td>
+
+                                    <!-- Date and Time -->
+                                    <td class="text-nowrap">
+
+                                        @item.UpdatedAt.ToString("dd MMM yyyy")
+
+                                        <br />
+
+                                        <small class="text-secondary">
+                                            @item.UpdatedAt.ToString("hh:mm tt")
+                                        </small>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="empty-history">
+
+                    <i class="bi bi-clock-history"></i>
+
+                    <strong>
+                        No activity recorded yet
+                    </strong>
+
+                    <p class="mb-0 mt-2 small">
+                        Ticket status changes will appear here.
+                    </p>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+    <!-- Ticket Comments Section -->
+    <div class="ticket-card">
+
+        <div class="card-heading">
+
+            <h4>
+                <i class="bi bi-chat-dots text-primary me-2"></i>
+                Ticket Comments
+            </h4>
+
+            <span class="text-secondary small">
+                Discussion and updates
+            </span>
+
+        </div>
+
+        <div class="card-body">
+
+            <!-- Success Message -->
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Success"]
+                </div>
+            }
+
+            <!-- Error Message -->
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["Error"]
+                </div>
+            }
+
+            <!-- Display Existing Comments -->
+            <div class="comments-list mb-4">
+
+                @if (Model.Comments != null && Model.Comments.Any())
+                {
+                    @foreach (var comment in Model.Comments
+                        .OrderBy(c => c.CreatedAt))
+                    {
+                        <div class="comment-item">
+
+                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+
+                                <div class="comment-user">
+
+                                    <i class="bi bi-person-circle me-2"></i>
+
+                                    @(comment.User?.Email ?? "Unknown User")
+
+                                </div>
+
+                                <div class="comment-date">
+
+                                    <i class="bi bi-calendar3 me-1"></i>
+
+                                    @comment.CreatedAt.ToString("dd MMM yyyy")
+
+                                    <span class="ms-2">
+                                        @comment.CreatedAt.ToString("hh:mm tt")
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <p class="comment-text">@comment.CommentText</p>
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="empty-comments">
+
+                        <i class="bi bi-chat-square-text fs-3 d-block mb-2"></i>
+
+                        <strong>No comments yet</strong>
+
+                        <p class="small mb-0 mt-2">
+                            Be the first to comment on this ticket.
+                        </p>
+
+                    </div>
+                }
+
+            </div>
+
+            <hr />
+
+            <!-- Add New Comment -->
+            <div class="comment-form">
+
+                <h5 class="fw-bold mb-3">
+
+                    <i class="bi bi-pencil-square me-2"></i>
+
+                    Add a Comment
+
+                </h5>
+
+                <form asp-controller="Ticket"
+                      asp-action="AddComment"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="ticketId"
+                           value="@Model.TicketId" />
+
+                    <div class="mb-3">
+
+                        <textarea name="commentText"
+                                  class="form-control"
+                                  placeholder="Write your comment here..."
+                                  maxlength="2000"
+                                  required></textarea>
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-send me-2"></i>
+
+                        Submit Comment
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

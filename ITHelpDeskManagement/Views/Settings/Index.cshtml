@@ -1,0 +1,572 @@
+﻿@{
+    ViewData["Title"] = "Settings";
+
+    var fullName = ViewBag.FullName as string ?? "User";
+    var userName = ViewBag.UserName as string ?? "Not available";
+    var userEmail = ViewBag.Email as string ?? "Not available";
+    var phoneNumber = ViewBag.PhoneNumber as string ?? "Not added";
+    var role = ViewBag.Role as string ?? "User";
+
+    var avatarLetter = !string.IsNullOrWhiteSpace(fullName)
+        ? fullName.Substring(0, 1).ToUpper()
+        : "U";
+}
+
+<div class="settings-page">
+
+    <!-- Page heading -->
+    <div class="settings-heading mb-4">
+        <div>
+            <span class="settings-eyebrow">PREFERENCES</span>
+            <h2>Settings</h2>
+            <p>Manage your account and application preferences.</p>
+        </div>
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="back-dashboard-btn">
+            <i class="bi bi-arrow-left me-2"></i>
+            Dashboard
+        </a>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- LEFT: PROFILE CARD -->
+        <div class="col-lg-4">
+
+            <div class="settings-card profile-card">
+
+                <div class="profile-cover"></div>
+
+                <div class="profile-card-body">
+
+                    <div class="settings-avatar">
+                        @avatarLetter
+                    </div>
+
+                    <h5>@fullName</h5>
+
+                    <p>@userEmail</p>
+
+                    <span class="role-label">
+                        <i class="bi bi-shield-check me-1"></i>
+                        @role
+                    </span>
+
+                    <hr />
+
+                    <div class="profile-detail">
+                        <span>Account Status</span>
+                        <strong class="account-active">
+                            <i class="bi bi-circle-fill me-1"></i>
+                            Active
+                        </strong>
+                    </div>
+
+                    <div class="profile-detail">
+                        <span>Account Type</span>
+                        <strong>@role</strong>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT: SETTINGS -->
+        <div class="col-lg-8">
+
+            <!-- ACCOUNT INFORMATION -->
+            <div class="settings-card mb-4">
+
+                <div class="settings-card-header">
+                    <div class="settings-icon settings-blue">
+                        <i class="bi bi-person-gear"></i>
+                    </div>
+
+                    <div>
+                        <h5>Account Information</h5>
+                        <p>Manage your personal account details.</p>
+                    </div>
+                </div>
+
+                <div class="settings-content">
+
+                    <!-- Edit Profile -->
+                    <div class="settings-row profile-edit-row">
+                        <div>
+                            <strong>Personal Profile</strong>
+                            <small>Update your name, email and phone number.</small>
+                        </div>
+
+                        <a asp-controller="Account"
+                           asp-action="MyProfile"
+                           class="settings-action-btn">
+                            <i class="bi bi-pencil-square me-1"></i>
+                            Edit Profile
+                        </a>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="settings-row">
+                        <div>
+                            <strong>Full Name</strong>
+                            <small>Your registered personal name</small>
+                        </div>
+
+                        <span>@fullName</span>
+                    </div>
+
+                    <!-- Username -->
+                    <div class="settings-row">
+                        <div>
+                            <strong>Username</strong>
+                            <small>Your login username</small>
+                        </div>
+
+                        <span>@userName</span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="settings-row">
+                        <div>
+                            <strong>Email Address</strong>
+                            <small>Your registered email address</small>
+                        </div>
+
+                        <span class="settings-email">@userEmail</span>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="settings-row">
+                        <div>
+                            <strong>Phone Number</strong>
+                            <small>Your registered contact number</small>
+                        </div>
+
+                        <span>@phoneNumber</span>
+                    </div>
+
+                    <!-- Role -->
+                    <div class="settings-row">
+                        <div>
+                            <strong>Account Role</strong>
+                            <small>Your assigned system role</small>
+                        </div>
+
+                        <span class="role-label">@role</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- SECURITY -->
+            <div class="settings-card mb-4">
+
+                <div class="settings-card-header">
+                    <div class="settings-icon settings-purple">
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+
+                    <div>
+                        <h5>Security & Privacy</h5>
+                        <p>Manage your account security.</p>
+                    </div>
+                </div>
+
+                <div class="settings-content">
+
+                    <div class="settings-row">
+                        <div>
+                            <strong>Password</strong>
+                            <small>Change your current account password.</small>
+                        </div>
+
+                        <a asp-controller="Settings"
+                           asp-action="ChangePassword"
+                           class="settings-action-btn">
+                            <i class="bi bi-key me-1"></i>
+                            Change Password
+                        </a>
+                    </div>
+
+                    <div class="settings-row">
+                        <div>
+                            <strong>Authentication</strong>
+                            <small>Account protected by ASP.NET Core Identity.</small>
+                        </div>
+
+                        <span class="security-enabled">
+                            <i class="bi bi-check-circle-fill me-1"></i>
+                            Enabled
+                        </span>
+                    </div>
+
+                    <div class="settings-row">
+                        <div>
+                            <strong>Account Access</strong>
+                            <small>Protected pages require authentication.</small>
+                        </div>
+
+                        <span class="security-enabled">
+                            <i class="bi bi-shield-check me-1"></i>
+                            Protected
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- LOGOUT -->
+            <div class="settings-card logout-card">
+
+                <div class="settings-card-header">
+                    <div class="settings-icon settings-red">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </div>
+
+                    <div>
+                        <h5>Sign Out</h5>
+                        <p>End your current session securely.</p>
+                    </div>
+                </div>
+
+                <div class="logout-content">
+
+                    <div>
+                        <strong>Logout from IT Helpdesk</strong>
+                        <p>
+                            You will need to log in again to access your dashboard.
+                        </p>
+                    </div>
+
+                    <form asp-controller="Account"
+                          asp-action="Logout"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="settings-logout-btn">
+                            <i class="bi bi-box-arrow-right me-2"></i>
+                            Logout
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .settings-page {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .settings-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    .settings-eyebrow {
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+        color: #4263eb;
+    }
+
+    .settings-heading h2 {
+        font-size: 26px;
+        font-weight: 750;
+        color: #172b4d;
+        margin: 6px 0;
+    }
+
+    .settings-heading p {
+        font-size: 12px;
+        color: #667085;
+        margin: 0;
+    }
+
+    .back-dashboard-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 14px;
+        border: 1px solid #e1e7f0;
+        border-radius: 9px;
+        background: #fff;
+        color: #344054;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: .2s;
+    }
+
+        .back-dashboard-btn:hover {
+            background: #eef2ff;
+            color: #4263eb;
+        }
+
+    .settings-card {
+        background: #fff;
+        border: 1px solid #e8edf4;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 3px 12px rgba(16, 24, 40, .035);
+    }
+
+    .profile-cover {
+        height: 105px;
+        background: linear-gradient(120deg, #4263eb, #7596ff);
+    }
+
+    .profile-card-body {
+        padding: 0 23px 23px;
+        text-align: center;
+    }
+
+    .settings-avatar {
+        width: 76px;
+        height: 76px;
+        display: grid;
+        place-items: center;
+        margin: -38px auto 13px;
+        position: relative;
+        background: #fff;
+        border: 5px solid #fff;
+        border-radius: 50%;
+        color: #4263eb;
+        font-size: 25px;
+        font-weight: 750;
+        box-shadow: 0 3px 12px rgba(16, 24, 40, .1);
+    }
+
+    .profile-card-body h5 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #344054;
+        margin-bottom: 5px;
+    }
+
+    .profile-card-body > p {
+        color: #98a2b3;
+        font-size: 11px;
+        overflow-wrap: anywhere;
+    }
+
+    .role-label {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #eef2ff;
+        color: #4263eb;
+        font-size: 10px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .profile-card-body hr {
+        border-color: #edf0f5;
+        margin: 23px 0 15px;
+    }
+
+    .profile-detail {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 11px 0;
+        font-size: 11px;
+    }
+
+        .profile-detail span {
+            color: #667085;
+        }
+
+        .profile-detail strong {
+            color: #344054;
+        }
+
+    .account-active,
+    .security-enabled {
+        color: #168653 !important;
+    }
+
+    .settings-card-header {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 20px 22px;
+        border-bottom: 1px solid #edf0f5;
+    }
+
+    .settings-icon {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 11px;
+        font-size: 19px;
+        flex-shrink: 0;
+    }
+
+    .settings-blue {
+        background: #eef2ff;
+        color: #4263eb;
+    }
+
+    .settings-purple {
+        background: #f3edff;
+        color: #8b5cf6;
+    }
+
+    .settings-red {
+        background: #fff0ef;
+        color: #d92d20;
+    }
+
+    .settings-card-header h5 {
+        font-size: 14px;
+        font-weight: 700;
+        color: #344054;
+        margin-bottom: 4px;
+    }
+
+    .settings-card-header p {
+        font-size: 10px;
+        color: #98a2b3;
+        margin: 0;
+    }
+
+    .settings-content {
+        padding: 8px 22px;
+    }
+
+    .settings-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 16px 0;
+        border-bottom: 1px solid #f0f2f6;
+    }
+
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+
+        .settings-row > div {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .settings-row strong {
+            color: #344054;
+            font-size: 12px;
+        }
+
+        .settings-row small {
+            color: #98a2b3;
+            font-size: 10px;
+        }
+
+        .settings-row > span {
+            font-size: 11px;
+            font-weight: 600;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+    .settings-email {
+        color: #4263eb;
+    }
+
+    .settings-action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 9px 13px;
+        border-radius: 8px;
+        background: #4263eb;
+        color: white;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+        transition: .2s;
+    }
+
+        .settings-action-btn:hover {
+            background: #304fc9;
+            color: white;
+        }
+
+    .logout-content {
+        padding: 20px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+        .logout-content strong {
+            color: #344054;
+            font-size: 12px;
+        }
+
+        .logout-content p {
+            color: #98a2b3;
+            font-size: 10px;
+            margin: 5px 0 0;
+        }
+
+    .settings-logout-btn {
+        border: none;
+        background: #fff0ef;
+        color: #d92d20;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+        transition: all .2s;
+    }
+
+        .settings-logout-btn:hover {
+            background: #d92d20;
+            color: white;
+        }
+
+    @@media (max-width: 576px) {
+        .settings-heading {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+            .settings-heading h2 {
+                font-size: 22px;
+            }
+
+        .settings-row {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+            .settings-row > span {
+                text-align: left;
+            }
+
+        .logout-content {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+</style>

@@ -1,0 +1,41 @@
+﻿@model ITHelpDeskManagement.Models.Ticket
+
+@{
+    ViewData["Title"] = "Change Ticket Status";
+}
+
+<h2>Change Ticket Status</h2>
+
+<div class="card p-4 mt-3" style="max-width: 600px;">
+    <h5>Ticket #@Model.TicketId</h5>
+    <p><strong>Title:</strong> @Model.Title</p>
+    <p><strong>Current Status:</strong> @Model.Status</p>
+
+    <form asp-action="ChangeStatus" method="post">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="id" value="@Model.TicketId" />
+
+        <div class="mb-3">
+            <label for="status" class="form-label">New Status</label>
+            <select name="status" id="status" class="form-select" required>
+                <option value="Open" selected="@(Model.Status == "Open")">Open</option>
+                <option value="In Progress" selected="@(Model.Status == "In Progress")">In Progress</option>
+                <option value="Resolved" selected="@(Model.Status == "Resolved")">Resolved</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="remarks" class="form-label">Remarks</label>
+            <textarea name="remarks"
+                      id="remarks"
+                      class="form-control"
+                      rows="4"
+                      maxlength="500"
+                      placeholder="Explain why the status is changing..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Status</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
